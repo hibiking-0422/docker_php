@@ -440,13 +440,15 @@ class GameMain { //ゲームのメイン処理
         for(let i = 0; i < mazeSize; i++) {
             for(let j = 0; j < mazeSize; j++){
                 if(mazeField[i][j] == 0){
-                    ctx.fillStyle="black"; 
+                    ctx.fillStyle="black";
+                    ctx.fillRect(j * mazeBoxSize, i * mazeBoxSize, (j * mazeBoxSize) + mazeBoxSize, (i * mazeBoxSize) + mazeBoxSize);
                 }else if(mazeField[i][j] == 2){
-                    ctx.fillStyle="red";
+                    ctx.drawImage(stair, j * mazeBoxSize, i * mazeBoxSize, mazeBoxSize, mazeBoxSize);
                 }else {
-                    ctx.fillStyle="white"; 
+                    //ctx.drawImage(tile, j * mazeBoxSize, i * mazeBoxSize, mazeBoxSize, mazeBoxSize);
+                    ctx.fillStyle="white";
+                    ctx.fillRect(j * mazeBoxSize, i * mazeBoxSize, (j * mazeBoxSize) + mazeBoxSize, (i * mazeBoxSize) + mazeBoxSize);
                 }
-                ctx.fillRect(j * mazeBoxSize, i * mazeBoxSize, (j * mazeBoxSize) + mazeBoxSize, (i * mazeBoxSize) + mazeBoxSize);
             }
         }
     }
@@ -495,9 +497,10 @@ class GameMain { //ゲームのメイン処理
         ctx.fillStyle="black";
         ctx.font = fontSize + "px serif";
         //ステータス表示
-        ctx.fillText(player.name, mazeBoxSize, mazeBoxSize * (mazeSize + 1));
+        ctx.fillText(this.dungeonLevel + "階  " + player.name, mazeBoxSize, mazeBoxSize * (mazeSize + 1));
         ctx.fillText("HP " + player.HP + "   MP: " + player.MP, mazeBoxSize, mazeBoxSize * (mazeSize + 2));
-        ctx.fillText(this.dungeonLevel + "階", mazeBoxSize, mazeBoxSize * (mazeSize + 3));
+        ctx.fillText("", mazeBoxSize, mazeBoxSize * (mazeSize + 3));
+        ctx.fillText("Enter: 攻撃    Z: 回復", mazeBoxSize, mazeBoxSize * (mazeSize + 4));
     }
 
     goal() {
@@ -660,6 +663,11 @@ let ctx;
 let mazeSize = 15; // 15以上が好ましい。ログがずれるから。
 let mazeBoxSize = 20 //5の倍数
 let maze = new Maze(mazeSize);
+let stair = new Image();
+stair.src = './image/stair.png';
+let tile = new Image();
+tile.src = './image/tile.png';
+
 //ゲーム
 let charaNum = 100;
 let game = new GameMain(mazeSize * mazeBoxSize, mazeSize * mazeBoxSize);
